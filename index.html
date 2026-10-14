@@ -1,219 +1,664 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>SIMHA UI Engine</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<title>SIMHA UI Engine 0.2</title>
 
-    body {
-      margin: 0;
-      padding: 20px;
-      font-family: Arial, sans-serif;
-      background: #f1f5f9;
-      color: #172033;
-    }
+<style>
+:root {
+  --primary: #2563eb;
+  --background: #f1f5f9;
+  --surface: #ffffff;
+  --text: #172033;
+  --muted: #64748b;
+  --border: #dbe3ef;
+}
 
-    .app {
-      max-width: 600px;
-      margin: 30px auto;
-      padding: 24px;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px #00000012;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    h1 {
-      color: #075985;
-      font-size: 26px;
-    }
+body {
+  margin: 0;
+  font-family: system-ui, Arial, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  line-height: 1.6;
+}
 
-    .description {
-      color: #64748b;
-      line-height: 1.6;
-    }
+header {
+  background: #101827;
+  color: white;
+  padding: 20px 16px;
+  text-align: center;
+}
 
-    .counter {
-      margin: 20px 0;
-      padding: 20px;
-      background: #e0f2fe;
-      border-radius: 12px;
-      text-align: center;
-    }
+header h1 {
+  margin: 0;
+  font-size: 27px;
+}
 
-    #count {
-      display: block;
-      margin: 10px;
-      font-size: 42px;
-      font-weight: bold;
-    }
+header p {
+  margin: 5px 0 0;
+  color: #cbd5e1;
+}
 
-    button {
-      width: 100%;
-      padding: 14px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 9px;
-      background: #0369a1;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-    }
+main {
+  max-width: 760px;
+  padding: 18px;
+  margin: auto;
+}
 
-    button:active {
-      opacity: 0.8;
-    }
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 15px rgba(15, 23, 42, 0.04);
+}
 
-    #message {
-      min-height: 24px;
-      margin-top: 18px;
-      color: #047857;
-    }
+h2 {
+  font-size: 20px;
+  margin: 0 0 10px;
+}
 
-    .footer {
-      margin-top: 24px;
-      padding-top: 15px;
-      border-top: 1px solid #e2e8f0;
-      font-size: 13px;
-      color: #64748b;
-    }
-  </style>
+p {
+  overflow-wrap: anywhere;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+button, select {
+  font: inherit;
+  border-radius: 10px;
+  padding: 11px 15px;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  cursor: pointer;
+  margin: 4px 4px 4px 0;
+}
+
+button.secondary {
+  background: #e2e8f0;
+  color: #172033;
+}
+
+button:focus-visible,
+select:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+select {
+  background: white;
+  border: 1px solid var(--border);
+  max-width: 100%;
+}
+
+.counter {
+  font-size: 38px;
+  font-weight: 750;
+  margin: 10px 0;
+}
+
+.badge {
+  display: inline-block;
+  background: #dbeafe;
+  color: #1d4ed8;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+code {
+  background: #eef2ff;
+  color: #3730a3;
+  padding: 3px 6px;
+  border-radius: 5px;
+  overflow-wrap: anywhere;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+#status {
+  min-height: 24px;
+  color: #047857;
+  font-size: 14px;
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 12px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  header h1 {
+    font-size: 23px;
+  }
+
+  button {
+    padding: 10px 12px;
+  }
+}
+</style>
 </head>
 
 <body>
-  <main class="app" id="app"></main>
 
-  <script>
-    // SIMHA UI Engine — Version 0.1
+<header>
+  <h1>🦁 SIMHA UI Engine</h1>
+  <p>Version 0.2 · Our Experimental UI Technology</p>
+</header>
 
-    const SimhaUI = {
-      mount(target, component) {
-        const element = document.querySelector(target);
+<main>
+  <div id="app"></div>
+  <p id="status" role="status" aria-live="polite"></p>
+</main>
 
-        if (!element) {
-          throw new Error("SIMHA UI: Target not found");
+<footer>
+  SIMHA UI Engine 0.2 · Built for learning and experimentation
+</footer>
+
+<script>
+"use strict";
+
+/* =================================
+   SIMHA UI ENGINE 0.2
+   Core UI Library
+================================= */
+
+const SimhaUI = (() => {
+
+  const VERSION = "0.2.0";
+
+  function element(tag, props = {}, ...children) {
+    const node = document.createElement(tag);
+
+    if (props && typeof props === "object") {
+      Object.entries(props).forEach(([key, value]) => {
+        if (key === "className") {
+          node.className = value;
+        } else if (key === "text") {
+          node.textContent = value;
+        } else if (key.startsWith("on") &&
+                   typeof value === "function") {
+          node.addEventListener(
+            key.slice(2).toLowerCase(),
+            value
+          );
+        } else if (key === "style" &&
+                   typeof value === "object") {
+          Object.assign(node.style, value);
+        } else if (key === "value") {
+          node.value = value;
+        } else if (key === "disabled") {
+          node.disabled = Boolean(value);
+        } else if (key === "aria-label" ||
+                   key.startsWith("data-") ||
+                   key === "title" ||
+                   key === "type" ||
+                   key === "id") {
+          node.setAttribute(key, String(value));
         }
-
-        this.render(element, component);
-      },
-
-      render(element, component) {
-        element.replaceChildren();
-
-        const view = component();
-
-        if (view instanceof Node) {
-          element.appendChild(view);
-        }
-      },
-
-      element(tag, text, className) {
-        const node = document.createElement(tag);
-
-        if (text !== undefined) {
-          node.textContent = text;
-        }
-
-        if (className) {
-          node.className = className;
-        }
-
-        return node;
-      }
-    };
-
-    // Application state
-    const state = {
-      count: 0
-    };
-
-    // Build the UI using our own engine
-    function App() {
-      const container = document.createElement("div");
-
-      const title = SimhaUI.element(
-        "h1",
-        "SIMHA UI Engine"
-      );
-
-      const description = SimhaUI.element(
-        "p",
-        "మన సొంత Frontend Technology నిర్మాణానికి ఇది మొదటి అడుగు.",
-        "description"
-      );
-
-      const counter = SimhaUI.element(
-        "section",
-        undefined,
-        "counter"
-      );
-
-      counter.appendChild(
-        SimhaUI.element("p", "Button నొక్కిన సంఖ్య")
-      );
-
-      const count = SimhaUI.element(
-        "span",
-        String(state.count)
-      );
-
-      count.id = "count";
-
-      counter.appendChild(count);
-
-      const button = SimhaUI.element(
-        "button",
-        "Count పెంచండి"
-      );
-
-      button.addEventListener("click", () => {
-        state.count++;
-        SimhaUI.mount("#app", App);
-
-        document.querySelector("#message").textContent =
-          "SIMHA UI ద్వారా UI నవీకరించబడింది!";
       });
-
-      const reset = SimhaUI.element(
-        "button",
-        "మళ్లీ ప్రారంభించండి"
-      );
-
-      reset.style.background = "#475569";
-
-      reset.addEventListener("click", () => {
-        state.count = 0;
-        SimhaUI.mount("#app", App);
-      });
-
-      const message = SimhaUI.element("p", "");
-      message.id = "message";
-
-      const footer = SimhaUI.element(
-        "div",
-        "SIMHA Technologies • Prototype 0.1",
-        "footer"
-      );
-
-      container.append(
-        title,
-        description,
-        counter,
-        button,
-        reset,
-        message,
-        footer
-      );
-
-      return container;
     }
 
-    // Start our UI engine
-    SimhaUI.mount("#app", App);
-  </script>
+    function append(child) {
+      if (child === null ||
+          child === undefined ||
+          child === false ||
+          child === true) {
+        return;
+      }
+
+      if (Array.isArray(child)) {
+        child.forEach(append);
+        return;
+      }
+
+      if (child instanceof Node) {
+        node.appendChild(child);
+        return;
+      }
+
+      node.appendChild(
+        document.createTextNode(String(child))
+      );
+    }
+
+    children.forEach(append);
+
+    return node;
+  }
+
+  function h(type, props, ...children) {
+    if (typeof type === "function") {
+      return type({
+        ...(props || {}),
+        children
+      });
+    }
+
+    return element(type, props || {}, ...children);
+  }
+
+  function render(target, component) {
+    const container =
+      typeof target === "string"
+        ? document.querySelector(target)
+        : target;
+
+    if (!container) {
+      throw new Error("SIMHA: Target element not found.");
+    }
+
+    const output =
+      typeof component === "function"
+        ? component()
+        : component;
+
+    container.replaceChildren();
+
+    if (output instanceof Node) {
+      container.appendChild(output);
+    } else if (output !== null &&
+               output !== undefined) {
+      container.textContent = String(output);
+    }
+
+    return container;
+  }
+
+  function mount(target, component) {
+    return render(target, component);
+  }
+
+  function createState(initialValue) {
+    let value = initialValue;
+    const listeners = new Set();
+
+    return {
+      get() {
+        return value;
+      },
+
+      set(nextValue) {
+        const next =
+          typeof nextValue === "function"
+            ? nextValue(value)
+            : nextValue;
+
+        if (Object.is(value, next)) return;
+
+        value = next;
+
+        listeners.forEach(listener => {
+          try {
+            listener(value);
+          } catch (error) {
+            console.error(
+              "SIMHA state listener error:",
+              error
+            );
+          }
+        });
+      },
+
+      subscribe(listener) {
+        if (typeof listener !== "function") {
+          throw new TypeError(
+            "SIMHA: Listener must be a function."
+          );
+        }
+
+        listeners.add(listener);
+
+        return () => listeners.delete(listener);
+      }
+    };
+  }
+
+  function createComponent(renderFunction) {
+    if (typeof renderFunction !== "function") {
+      throw new TypeError(
+        "SIMHA: Component must be a function."
+      );
+    }
+
+    return function component(props = {}) {
+      return renderFunction(props);
+    };
+  }
+
+  function button(text, onClick, secondary = false) {
+    return element("button", {
+      type: "button",
+      className: secondary ? "secondary" : "",
+      onClick
+    }, text);
+  }
+
+  function card(title, ...children) {
+    return element(
+      "section",
+      { className: "card" },
+      element("h2", {}, title),
+      ...children
+    );
+  }
+
+  return {
+    version: VERSION,
+    element,
+    h,
+    render,
+    mount,
+    createState,
+    createComponent,
+    button,
+    card
+  };
+
+})();
+
+/* =================================
+   MULTI-LANGUAGE SUPPORT
+================================= */
+
+const translations = {
+  en: {
+    welcome: "Welcome to SIMHA UI Engine",
+    description: "Build simple user interfaces with less code.",
+    counter: "State Management Demo",
+    increase: "Increase",
+    decrease: "Decrease",
+    reset: "Reset",
+    language: "Choose Language",
+    components: "Reusable Components",
+    componentText: "This card is created using a reusable component.",
+    features: "Engine Features",
+    featureText:
+      "Responsive design, reusable components, state management and language support.",
+    version: "Engine Version",
+    status: "Everything is working!",
+    changed: "Language updated successfully."
+  },
+
+  te: {
+    welcome: "సిమ్హా UI ఇంజిన్‌కు స్వాగతం",
+    description: "తక్కువ కోడ్‌తో సులభమైన యూజర్ ఇంటర్‌ఫేస్‌లను తయారు చేయండి.",
+    counter: "స్టేట్ మేనేజ్‌మెంట్ డెమో",
+    increase: "పెంచండి",
+    decrease: "తగ్గించండి",
+    reset: "రీసెట్",
+    language: "భాషను ఎంచుకోండి",
+    components: "మళ్లీ ఉపయోగించగల Components",
+    componentText: "ఈ కార్డ్‌ను ఒక Reusable Component ద్వారా తయారు చేశాం.",
+    features: "ఇంజిన్ ప్రత్యేకతలు",
+    featureText:
+      "మొబైల్ సపోర్ట్, Reusable Components, State Management మరియు భాషా సపోర్ట్.",
+    version: "ఇంజిన్ వెర్షన్",
+    status: "అన్నీ సరిగ్గా పనిచేస్తున్నాయి!",
+    changed: "భాష విజయవంతంగా మార్చబడింది."
+  },
+
+  hi: {
+    welcome: "SIMHA UI Engine में आपका स्वागत है",
+    description: "कम कोड से आसान यूजर इंटरफेस बनाएं।",
+    counter: "स्टेट मैनेजमेंट डेमो",
+    increase: "बढ़ाएं",
+    decrease: "घटाएं",
+    reset: "रीसेट",
+    language: "भाषा चुनें",
+    components: "दोबारा उपयोग होने वाले Components",
+    componentText: "यह कार्ड एक Reusable Component से बनाया गया है।",
+    features: "इंजन की विशेषताएं",
+    featureText:
+      "मोबाइल सपोर्ट, Reusable Components, State Management और भाषा सपोर्ट।",
+    version: "इंजन वर्जन",
+    status: "सब कुछ सही काम कर रहा है!",
+    changed: "भाषा सफलतापूर्वक बदल गई।"
+  }
+};
+
+/* =================================
+   APPLICATION STATE
+================================= */
+
+const counterState = SimhaUI.createState(0);
+const languageState = SimhaUI.createState("te");
+
+const app = document.getElementById("app");
+const status = document.getElementById("status");
+
+function t(key) {
+  const language = languageState.get();
+
+  return translations[language]?.[key]
+      ?? translations.en[key]
+      ?? key;
+}
+
+/* =================================
+   REUSABLE COMPONENT
+================================= */
+
+const FeatureCard = SimhaUI.createComponent(
+  function(props) {
+    return SimhaUI.element(
+      "section",
+      { className: "card" },
+
+      SimhaUI.element("h2", {}, props.title),
+
+      SimhaUI.element(
+        "p",
+        { className: "muted" },
+        props.description
+      ),
+
+      SimhaUI.element(
+        "span",
+        { className: "badge" },
+        "SIMHA Component"
+      )
+    );
+  }
+);
+
+/* =================================
+   MAIN APPLICATION
+================================= */
+
+function App() {
+  const count = counterState.get();
+
+  const languageSelector = SimhaUI.element(
+    "select",
+    {
+      "aria-label": t("language"),
+      onChange: event => {
+        languageState.set(event.target.value);
+        status.textContent = t("changed");
+      }
+    },
+
+    SimhaUI.element(
+      "option",
+      { value: "te" },
+      "తెలుగు"
+    ),
+
+    SimhaUI.element(
+      "option",
+      { value: "en" },
+      "English"
+    ),
+
+    SimhaUI.element(
+      "option",
+      { value: "hi" },
+      "हिन्दी"
+    )
+  );
+
+  languageSelector.value = languageState.get();
+
+  const welcomeCard = SimhaUI.card(
+    t("welcome"),
+
+    SimhaUI.element(
+      "p",
+      {},
+      t("description")
+    ),
+
+    SimhaUI.element(
+      "p",
+      { className: "muted" },
+      "SIMHA UI Engine " + SimhaUI.version
+    )
+  );
+
+  const counterCard = SimhaUI.card(
+    t("counter"),
+
+    SimhaUI.element(
+      "div",
+      {
+        className: "counter",
+        "aria-live": "polite"
+      },
+      count
+    ),
+
+    SimhaUI.element(
+      "p",
+      { className: "muted" },
+      "Current State: " + count
+    ),
+
+    SimhaUI.button(
+      t("increase"),
+      () => counterState.set(value => value + 1)
+    ),
+
+    SimhaUI.button(
+      t("decrease"),
+      () => counterState.set(value => value - 1),
+      true
+    ),
+
+    SimhaUI.button(
+      t("reset"),
+      () => counterState.set(0),
+      true
+    )
+  );
+
+  const languageCard = SimhaUI.card(
+    t("language"),
+    languageSelector
+  );
+
+  const featureCard = FeatureCard({
+    title: t("components"),
+    description: t("componentText")
+  });
+
+  const informationCard = SimhaUI.card(
+    t("features"),
+
+    SimhaUI.element(
+      "p",
+      {},
+      t("featureText")
+    ),
+
+    SimhaUI.element(
+      "p",
+      {},
+      t("version") + ": " + SimhaUI.version
+    )
+  );
+
+  const credits = SimhaUI.element(
+    "p",
+    { className: "muted" },
+    "Created with SIMHA UI Engine"
+  );
+
+  return SimhaUI.element(
+    "div",
+    {},
+    welcomeCard,
+    counterCard,
+    languageCard,
+    featureCard,
+    informationCard,
+    credits
+  );
+}
+
+/* =================================
+   STATE SUBSCRIPTIONS
+================================= */
+
+counterState.subscribe(() => {
+  try {
+    SimhaUI.render(app, App);
+  } catch (error) {
+    console.error(error);
+    status.textContent = "Unable to update the UI.";
+  }
+});
+
+languageState.subscribe(() => {
+  try {
+    SimhaUI.render(app, App);
+  } catch (error) {
+    console.error(error);
+    status.textContent = "Unable to update the UI.";
+  }
+});
+
+/* =================================
+   START APPLICATION
+================================= */
+
+try {
+  SimhaUI.mount(app, App);
+
+  status.textContent =
+    "SIMHA UI Engine " +
+    SimhaUI.version +
+    " is running.";
+} catch (error) {
+  console.error("SIMHA startup error:", error);
+
+  status.textContent =
+    "Application error. Please reload the page.";
+}
+</script>
+
 </body>
 </html>
